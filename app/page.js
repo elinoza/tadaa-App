@@ -10,6 +10,7 @@ import { LuPencil } from "react-icons/lu";
 import { IoMdCheckmark } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
 import ToDoDialog from "../components/ToDoDialog";
+import ToDoItem from "@/components/ToDoItem";
 
 export default function Home() {
   const [task, setTask] = useState("");
@@ -20,17 +21,16 @@ export default function Home() {
     createdAt: "",
   });
   const [toDos, setToDos] = useState([]);
-  const [isEdit, setisEdit] = useState(false);
   const [dones, setDones] = useState([]);
   const [toDoDialogOpen, setToDoDialogOpen] = useState(false);
 
   const handleSubmit = (e) => {
     if (e.keyCode === 13) {
-      const date = format(new Date(), "MM/dd/yyyy");
+      const date = new Date();
       const toDo = {
         id: uniqid(),
         isDone: false,
-        task,
+        task: task,
         createdAt: date,
       };
       toDos.push(toDo);
@@ -43,11 +43,23 @@ export default function Home() {
     const newArr = toDos.filter((todo) => todo.id != id);
     setToDos(newArr);
   };
-  const handleEdit = (id) => {
-    setisEdit(true);
-    const tempArr = toDos.filter((todo) => todo.id != id);
-    const toDo = toDos.filter((todo) => todo.id === id);
-    tempArr.push({ ...toDo, task: task });
+
+  const handleUpdate = (id, task) => {
+    const indexTobeUpdated = toDos.findIndex((todo) => todo.id === id);
+    const updatedToDos = [...toDos];
+    updatedToDos[indexTobeUpdated] = {
+      ...updatedToDos[indexTobeUpdated],
+      task: task,
+    };
+    setToDos(updatedToDos);
+  };
+  const handleCheck = (id) => {
+    const newArr = toDos.filter((todo) => todo.id != id);
+    let checkedToDo = toDos.find((todo) => todo.id === id);
+    checkedToDo = { ...checkedToDo, isDone: true };
+    const updatedDones = [...dones, checkedToDo];
+    setToDos(newArr);
+    setDones(updatedDones);
   };
 
   return (
@@ -73,40 +85,21 @@ export default function Home() {
           onChange={(e) => setTask(e.currentTarget.value)}
         />
       )}
+      <h1>To Do</h1>
       {toDos &&
         toDos.map((task, i) => (
-          <motion.div
+          <ToDoItem
             key={i}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.4 }}
-            className=" w-full h-30 bg-white shadow flex justify-between items-center my-2 p-3"
-          >
-            {" "}
-            {task.task}
-            <div className=" justify-between  flex items-center w-24">
-              {" "}
-              {!isEdit ? (
-                <span className="shadow cursor-pointer p-3">
-                  {" "}
-                  <LuPencil onClick={() => handleEdit(id)} />
-                </span>
-              ) : (
-                <span className="shadow cursor-pointer p-3 text-green-600">
-                  {" "}
-                  <IoMdCheckmark />
-                </span>
-              )}
-              <span
-                onClick={() => handleDelete(task.id)}
-                className="text-red-600 cursor-pointer p-3 shadow"
-              >
-                {" "}
-                <MdDelete />{" "}
-              </span>
-            </div>
-          </motion.div>
+            task={task}
+            handleDelete={() => handleDelete(task.id)}
+            handleUpdate={handleUpdate}
+            handleCheck={() => handleCheck(task.id)}
+          />
         ))}
+      <h1>Done</h1>
+      {dones &&
+        dones.length > 0 &&
+        dones.map((task, i) => <ToDoItem key={i} task={task} />)}
     </motion.main>
   );
 }
