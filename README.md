@@ -1,6 +1,6 @@
-# Ta-Daa App 🎉
+# TaDaa App 🎉
 
-Ta-Daa app is a simple task manager that allows you to write down tasks, mark them as completed, delete them, and edit them. It leverages several libraries and features for enhanced functionality and user experience:
+TaDaa app is a simple task manager that allows you to write down tasks, mark them as completed, delete them, and edit them. It leverages several libraries and features for enhanced functionality and user experience:
 
 <img width="1186" alt="Ekran Resmi 2024-06-05 13 36 15" src="https://github.com/elinoza/todoapp/assets/72200043/ba203d60-5688-49e9-8f3e-e9dd81658f90">
 
