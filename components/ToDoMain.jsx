@@ -105,7 +105,7 @@ const ToDoMain = () => {
       <div className="my-4 w-full  ">
         {" "}
         <h1 className="font-bold text-2xl mb-5">
-          Let's Turn To-Dos into Ta-Das! 🎉
+          {" Let's Turn To-Dos into Ta-Das! 🎉"}
         </h1>
         <Input
           placeholder="Create new task"
