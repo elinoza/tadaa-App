@@ -5,42 +5,30 @@ import { LuPencil } from "react-icons/lu";
 import { IoMdCheckmark } from "react-icons/io";
 import { formatDistance } from "date-fns";
 
-const ToDoItem = ({
-  task,
-  handleDelete,
-  handleUpdate,
-  handleCheck,
-  checked,
-}) => {
+const ToDoItem = ({ task, handleDelete, handleUpdate, handleCheck }) => {
   const [updatedTask, setUpdatedTask] = useState(task.task);
   const [isEdit, setisEdit] = useState(false);
-
-  const dateDistance = formatDistance(task.createdAt, new Date(), {
-    addSuffix: true,
-  });
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, delay: 0.4 }}
-      className=" w-full h-30 bg-white shadow flex justify-between items-center my-2 p-3"
+      className=" w-full h-30 rounded  bg-[#FFFCF5] shadow flex justify-between items-center my-2 p-3"
     >
       {" "}
-      {!isEdit || checked ? (
+      {!isEdit ? (
         <div className="p-1  ">
           {" "}
           <input
             type="checkbox"
-            onChange={() => handleCheck(task.id)}
+            onChange={() => handleCheck(task?.id, task?.isDone)}
             className="mr-2"
             checked={task.isDone}
           />
           <div className="inline">
-            {task.task}{" "}
-            <span className="text-neutral-400 text-[0.7rem]">
-              {dateDistance}{" "}
-            </span>
+            {task.isDone ? task.task + " 🎉" : task.task}{" "}
+            {/* <span className="text-neutral-400 text-[0.7rem]">{formatDistance(task.createdAt)}</span> */}
           </div>
         </div>
       ) : (
@@ -53,33 +41,32 @@ const ToDoItem = ({
           />
         </div>
       )}
-      {!checked && (
-        <div className=" justify-between  flex items-center w-24">
-          {" "}
-          {!isEdit ? (
+      <div className=" hidden sm:flex justify-end items-center w-24">
+        {" "}
+        {handleUpdate ? (
+          !isEdit ? (
             <span className="shadow cursor-pointer p-3">
-              {" "}
               <LuPencil onClick={() => setisEdit(true)} />
             </span>
           ) : (
             <span className="shadow cursor-pointer p-3 text-green-600">
-              {" "}
               <IoMdCheckmark
                 onClick={() => {
-                  handleUpdate(task.id, updatedTask), setisEdit(false);
+                  handleUpdate(task.id, updatedTask);
+                  setisEdit(false);
                 }}
               />
             </span>
-          )}
-          <span
-            onClick={handleDelete}
-            className="text-red-600 cursor-pointer p-3 shadow"
-          >
-            {" "}
-            <MdDelete />{" "}
-          </span>
-        </div>
-      )}
+          )
+        ) : null}
+        <span
+          onClick={() => handleDelete(task.id, task.isDone)}
+          className="text-red-600 cursor-pointer p-3 shadow"
+        >
+          {" "}
+          <MdDelete />{" "}
+        </span>
+      </div>
     </motion.div>
   );
 };
