@@ -1,12 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 import uniqid from "uniqid";
-import { format } from "date-fns";
-import { MdDelete } from "react-icons/md";
-import { LuPencil } from "react-icons/lu";
-import { IoMdCheckmark } from "react-icons/io";
-import { FaPlus } from "react-icons/fa6";
+import { IoLogoGithub } from "react-icons/io";
 import Input from "./Input";
 import ToDoItem from "@/components/ToDoItem";
 
@@ -104,9 +100,20 @@ const ToDoMain = () => {
     >
       <div className="my-4 w-full  ">
         {" "}
-        <h1 className="font-bold text-2xl mb-5">
-          {" Let's Turn To-Dos into Ta-Das! 🎉"}
-        </h1>
+        <div className="mb-5 flex justify-between text-2xl">
+          {" "}
+          <h1 className="font-bold  ">
+            {" Let's Turn To-Dos into Ta-Das! 🎉"}
+          </h1>{" "}
+          <span>
+            <a
+              href="https://github.com/elinoza/markdown-editor"
+              target="_blank"
+            >
+              <IoLogoGithub />
+            </a>
+          </span>
+        </div>
         <Input
           placeholder="Create new task"
           value={task}
