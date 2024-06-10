@@ -111,7 +111,7 @@ const ToDoMain = () => {
             {" Let's Turn To-Dos into Ta-Das! 🎉"}
           </h1>{" "}
           <span>
-            <a href="https://github.com/elinoza/calculator" target="_blank">
+            <a href="https://github.com/elinoza/tadaa-App" target="_blank">
               <IoLogoGithub />
             </a>
           </span>
