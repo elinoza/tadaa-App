@@ -4,27 +4,28 @@ import { motion } from "framer-motion";
 import uniqid from "uniqid";
 import { IoLogoGithub } from "react-icons/io";
 import Input from "./Input";
-import ToDoItem from "@/components/ToDoItem";
+import ToDoItem from "./ToDoItem";
+
+interface ToDo {
+  id: string;
+  isDone: boolean;
+  task: string;
+  createdAt: Date;
+}
 
 const ToDoMain = () => {
-  const [task, setTask] = useState("");
-  const [toDo, setToDo] = useState({
-    id: "",
-    isDone: false,
-    task: "",
-    createdAt: "",
-  });
-  const [toDos, setToDos] = useState([]);
-  const [dones, setDones] = useState([]);
+  const [task, setTask] = useState<string>("");
+  const [toDos, setToDos] = useState<ToDo[]>([]);
+  const [dones, setDones] = useState<ToDo[]>([]);
 
-  const handleStorage = (key, data) => {
+  const handleStorage = (key: string, data: ToDo[]) => {
     localStorage.setItem(key, JSON.stringify(data));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     if (e.keyCode === 13) {
       const date = new Date();
-      const toDo = {
+      const toDo: ToDo = {
         id: uniqid(),
         isDone: false,
         task: task,
@@ -36,7 +37,7 @@ const ToDoMain = () => {
     }
   };
 
-  const handleDelete = (id, isDone) => {
+  const handleDelete = (id: string, isDone: boolean) => {
     if (!isDone) {
       const newArr = toDos.filter((todo) => todo.id != id);
       setToDos(newArr);
@@ -48,7 +49,7 @@ const ToDoMain = () => {
     }
   };
 
-  const handleUpdate = (id, task) => {
+  const handleUpdate = (id: string, task: string) => {
     const indexTobeUpdated = toDos.findIndex((todo) => todo.id === id);
     const updatedToDos = [...toDos];
     updatedToDos[indexTobeUpdated] = {
@@ -58,25 +59,29 @@ const ToDoMain = () => {
     setToDos(updatedToDos);
     handleStorage("toDos", updatedToDos);
   };
-  const handleCheck = (id, isDone) => {
+  const handleCheck = (id: string, isDone: boolean) => {
     if (!isDone) {
       let selectedTask = toDos.find((todo) => todo.id === id);
       const newArr = toDos.filter((todo) => todo.id !== id);
-      selectedTask = { ...selectedTask, isDone: true };
-      const updatedDones = [...dones, selectedTask];
-      setToDos(newArr);
-      setDones(updatedDones);
-      handleStorage("toDos", newArr);
-      handleStorage("dones", updatedDones);
+      if (selectedTask) {
+        selectedTask = { ...selectedTask, isDone: true };
+        const updatedDones = [...dones, selectedTask];
+        setToDos(newArr);
+        setDones(updatedDones);
+        handleStorage("toDos", newArr);
+        handleStorage("dones", updatedDones);
+      }
     } else {
       let selectedTask = dones.find((todo) => todo.id === id);
       const newArr = dones.filter((todo) => todo.id !== id);
-      selectedTask = { ...selectedTask, isDone: false };
-      const updatedToDos = [...toDos, selectedTask];
-      setDones(newArr);
-      setToDos(updatedToDos);
-      handleStorage("toDos", newArr);
-      handleStorage("dones", updatedToDos);
+      if (selectedTask) {
+        selectedTask = { ...selectedTask, isDone: false };
+        const updatedToDos = [...toDos, selectedTask];
+        setDones(newArr);
+        setToDos(updatedToDos);
+        handleStorage("toDos", newArr);
+        handleStorage("dones", updatedToDos);
+      }
     }
   };
 
@@ -96,7 +101,7 @@ const ToDoMain = () => {
       initial={{ top: -300 }}
       animate={{ top: 0 }}
       transition={{ duration: 0.4 }}
-      className=" bg-[#F7ECEC] w-full h-full sm:h-fit   rounded  text-[#364375] flex-col p-8 items-center  justify-between shadow-md "
+      className=" bg-daylight-200 w-screen h-screen sm:h-full sm:w-full  rounded  text-night flex-col p-8 items-center  justify-between shadow-md "
     >
       <div className="my-4 w-full  ">
         {" "}
@@ -114,9 +119,9 @@ const ToDoMain = () => {
         <Input
           placeholder="Create new task"
           value={task}
-          autoFocus="true"
+          autoFocus={true}
           task={task}
-          onChange={(e) => setTask(e.currentTarget.value)}
+          onChange={(e: any) => setTask(e.currentTarget.value)}
           onKeyUp={handleSubmit}
         />
       </div>

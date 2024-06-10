@@ -1,6 +1,13 @@
 import React from "react";
 
-const Input = React.forwardRef(function Input({ ...props }, ref) {
+type InputProps = {
+  task: string;
+} & React.InputHTMLAttributes<HTMLInputElement>;
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
+  { ...props },
+  ref
+) {
   return (
     <input
       ref={ref}

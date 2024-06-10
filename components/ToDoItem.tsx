@@ -5,7 +5,25 @@ import { LuPencil } from "react-icons/lu";
 import { IoMdCheckmark } from "react-icons/io";
 import { formatDistance } from "date-fns";
 
-const ToDoItem = ({ task, handleDelete, handleUpdate, handleCheck }) => {
+interface ToDo {
+  id: string;
+  isDone: boolean;
+  task: string;
+  createdAt: Date;
+}
+
+type ToDoItemProps = {
+  task: ToDo;
+  handleDelete: (id: string, isDone: boolean) => void;
+  handleUpdate?: (id: string, task: string) => void;
+  handleCheck: (id: string, isDone: boolean) => void;
+};
+const ToDoItem = ({
+  task,
+  handleDelete,
+  handleUpdate,
+  handleCheck,
+}: ToDoItemProps) => {
   const [updatedTask, setUpdatedTask] = useState(task.task);
   const [isEdit, setisEdit] = useState(false);
 
@@ -14,7 +32,7 @@ const ToDoItem = ({ task, handleDelete, handleUpdate, handleCheck }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, delay: 0.4 }}
-      className=" w-full h-30 rounded  bg-[#FFFCF5] shadow flex justify-between items-center my-2 p-3"
+      className=" w-full h-30 rounded  bg-daylight-100 shadow flex justify-between items-center my-2 p-3"
     >
       {" "}
       {!isEdit ? (
@@ -35,8 +53,8 @@ const ToDoItem = ({ task, handleDelete, handleUpdate, handleCheck }) => {
         <div>
           <input
             value={updatedTask}
-            autoFocus="true"
-            className="outline-none p-1  w-full "
+            autoFocus={true}
+            className="outline-none p-1 bg-transparent w-full "
             onChange={(e) => setUpdatedTask(e.target.value)}
           />
         </div>
