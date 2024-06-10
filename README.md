@@ -6,12 +6,13 @@ TaDaa app is a simple task manager that allows you to write down tasks, mark the
 
 <img width="374" alt="Ekran Resmi 2024-06-05 13 36 56" src="https://github.com/elinoza/todoapp/assets/72200043/b6d9c91a-8f09-4d95-9d71-d2197a66747f">
 
-## Libraries Used
+##  Tech Used
 
 1. **Next.js**: Provides server-side rendering and efficient routing.
 2. **Tailwind CSS**: A utility-first CSS framework for styling.
 3. **Framer Motion**: Adds smooth animations and transitions.
 4. **Date-fns**: A library for working with dates and times.
+5. **TypeScript**:This project built using TypeScript.
 
 ## Features
 
